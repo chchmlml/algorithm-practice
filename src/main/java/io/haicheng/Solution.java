@@ -2,6 +2,7 @@ package io.haicheng;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Title: Solution</p>
@@ -17,9 +18,51 @@ public class Solution {
         Solution s = new Solution();
         //s.generateParenthesis(2);
 
-        System.out.println(s.mySqrt(5));
+        //        System.out.println(s.mySqrt(5));
+        //
+        //        s.countBits(2);
 
-        s.countBits(2);
+        System.out.println(s.climbStairs(44));
+    }
+
+    public int minimumTotal(List<List<Integer>> triangle) {
+
+        for (int i = triangle.size() - 2; i >= 0; i--) {
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                int min = Math.min(triangle.get(i + 1).get(j), triangle.get(i + 1).get(j + 1));
+                triangle.get(i).set(j, min + triangle.get(i).get(j));
+            }
+        }
+        return triangle.get(0).get(0);
+    }
+
+
+    public int climbStairs(int n) {
+
+        if (n == 0 || n == 1 || n == 2) {
+            return n;
+        }
+
+        int[] mem = new int[n];
+        mem[0] = 1;
+        mem[1] = 2;
+        for (int i = 2; i < n; i++) {
+            mem[i] = mem[i - 1] + mem[i - 2];
+        }
+        return mem[n - 1];
+
+        //        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        //        return _climb(n, map);
+    }
+
+    private int _climb(int n, Map<Integer, Integer> map) {
+        if (n <= 2) {
+            return n;
+        } else if (map.containsKey(n)) {
+            return map.get(n);
+        }
+
+        return _climb(n - 1, map) + _climb(n - 2, map);
     }
 
     public int[] countBits(int num) {
