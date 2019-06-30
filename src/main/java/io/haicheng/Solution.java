@@ -37,8 +37,38 @@ public class Solution {
         //        System.out.println(a);
         //        a = a << 2;
         //        System.out.println(a);
-        System.out.println(s.myAtoi("-123"));
+//        System.out.println(s.myAtoi("-123"));
 
+        int[] height = {1,8,6,2,5,4,8,3,7};
+        System.out.println(s.maxArea(height));
+
+    }
+
+    public int maxArea(int[] height) {
+//        int area = 0;
+//        int i = 0;
+//        int j = height.length - 1;
+//
+//        while (i < j){
+//            int h = Math.min(height[i], height[j]);
+//            int w = j - i;
+//            area = Math.max(area, h * w);
+//            i++;
+//            j--;
+//        }
+//        return area;
+
+
+        int area = 0;
+        for (int i = 1; i < height.length - 1; i++) {
+            for (int j = i + 1; j < height.length; j++) {
+
+                int h = Math.min(height[i], height[j]);
+                int w = j - i;
+                area = Math.max(area, h * w);
+            }
+        }
+        return area;
     }
 
     public int myAtoi(String str) {
