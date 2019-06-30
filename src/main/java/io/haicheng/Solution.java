@@ -1,8 +1,13 @@
 package io.haicheng;
 
+import static java.lang.String.valueOf;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * <p>Title: Solution</p>
@@ -22,7 +27,163 @@ public class Solution {
         //
         //        s.countBits(2);
 
-        System.out.println(s.climbStairs(44));
+        //        System.out.println(s.climbStairs(44));
+
+        //        System.out.println("ab".substring(0));
+        //        System.out.println(s.longestPalindrome("ccc"));
+        //        System.out.println(s.reverse(-2147483648));
+
+        //        int a = 1;
+        //        System.out.println(a);
+        //        a = a << 2;
+        //        System.out.println(a);
+        System.out.println(s.myAtoi("-123"));
+
+    }
+
+    public int myAtoi(String str) {
+        if (null == str || "" == str) {
+            return 0;
+        }
+
+        str = str.trim();
+        Queue<Integer> queue = new LinkedList<Integer>();
+        char[] chars = str.toCharArray();
+
+        Map<Character, Integer> map = new HashMap<Character, Integer>() {{
+            put('0', 0);
+            put('1', 1);
+            put('2', 2);
+            put('3', 3);
+            put('4', 4);
+            put('5', 5);
+            put('6', 6);
+            put('7', 7);
+            put('8', 8);
+            put('9', 9);
+        }};
+        boolean isNegtive = false;
+        int isOut = 1;
+        for (char c : chars) {
+
+            if (queue.size() == 0 && '+' == c) {
+                if (--isOut < 0) {
+                    return 0;
+                }
+                continue;
+            }
+            if (queue.size() == 0 && '-' == c) {
+                isNegtive = true;
+                if (--isOut < 0) {
+                    return 0;
+                }
+                continue;
+            }
+
+            if (!map.containsKey(c)) {
+                break;
+            }
+            queue.offer(map.get(c));
+        }
+
+        long ret = 0;
+        while (queue.size() > 0) {
+            int level = queue.size() - 1;
+            ret += Math.pow(10, level) * queue.poll();
+        }
+
+        ret = isNegtive ? -ret : ret;
+        final int MAX = (int) (Math.pow(2, 31) - 1);
+        final int MIN = (int) (Math.pow(-2, 31));
+        if (ret > MAX) {
+            return MAX;
+        }
+        if (ret < MIN) {
+            return MIN;
+        }
+        return (int) ret;
+    }
+
+    public int reverse(int x) {
+
+        final int MAX = (int) (Math.pow(2, 31) - 1);
+        final int MIN = (int) (-Math.pow(2, 31) - 1);
+        long current = (long) x;
+
+        current = Long.parseLong(new StringBuffer(valueOf(Math.abs(current))).reverse().toString());
+
+        if (current > MAX || current < MIN) {
+            return 0;
+        }
+
+        return (int) ((x > 0) ? current : -current);
+
+        //        int news = Math.abs(x);
+        //        Stack<Integer> stack = new Stack<Integer>();
+        //
+        //        while (news > 0) {
+        //            int current = news % 10;
+        //            if (current > 0 || !stack.empty()) {
+        //                stack.push(current);
+        //            }
+        //            news = news / 10;
+        //        }
+        //
+        //        long ret = 0;
+        //        long level = 0;
+        //        long MAX = (int) (Math.pow(2, 31) -1);
+        //        while (stack.size() > 0) {
+        //            if (level > 0) {
+        //                ret += stack.pop() * level;
+        //                level *= 10;
+        //            } else {
+        //                ret += stack.pop();
+        //                level = 10;
+        //            }
+        //
+        //            if(ret > MAX){
+        //                return 0;
+        //            }
+        //        }
+        //
+        //        return (int) ((x > 0) ? ret : ret * -1);
+    }
+
+    public String longestPalindrome(String s) {
+        if (null == s || "" == s) {
+            return s;
+        }
+        if (s.length() <= 1) {
+            return s.substring(0);
+        }
+        String ret = s.substring(0, 1);
+
+        char[] chars = s.toCharArray();
+
+        for (int i = 0; i < chars.length - 1; i++) {
+            for (int j = i + 1; j < chars.length; j++) {
+
+                if (chars[i] == chars[j]) {
+
+                    int start = i;
+                    int end = j;
+                    boolean ok = true;
+                    while (start != end && start < end) {
+                        if (chars[start++] != chars[end--]) {
+                            ok = false;
+                            break;
+                        }
+                    }
+
+                    if (ok && ret.length() < s.substring(i, j + 1).length()) {
+                        ret = s.substring(i, j + 1);
+                    }
+                }
+
+            }
+        }
+
+        return ret;
     }
 
     public int minimumTotal(List<List<Integer>> triangle) {
