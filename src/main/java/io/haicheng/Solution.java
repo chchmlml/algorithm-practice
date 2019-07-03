@@ -21,6 +21,7 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution s = new Solution();
+
         //s.generateParenthesis(2);
 
         //        System.out.println(s.mySqrt(5));
@@ -37,27 +38,147 @@ public class Solution {
         //        System.out.println(a);
         //        a = a << 2;
         //        System.out.println(a);
-//        System.out.println(s.myAtoi("-123"));
+        //        System.out.println(s.myAtoi("-123"));
 
-        int[] height = {1,8,6,2,5,4,8,3,7};
-        System.out.println(s.maxArea(height));
+        //        int[] height = {1,
+        //                8,
+        //                6,
+        //                2,
+        //                5,
+        //                4,
+        //                8,
+        //                3,
+        //                7};
+        //        System.out.println(s.maxArea(height));
+        //        System.out.println(s.romanToInt("III"));
+        //        System.out.println(s.romanToInt("IV"));
+        //        System.out.println(s.romanToInt("IX"));
+        //        System.out.println(s.romanToInt("LVIII"));
+        //        System.out.println(s.romanToInt("MCMXCIV"));
 
     }
 
-    public int maxArea(int[] height) {
-//        int area = 0;
-//        int i = 0;
-//        int j = height.length - 1;
-//
-//        while (i < j){
-//            int h = Math.min(height[i], height[j]);
-//            int w = j - i;
-//            area = Math.max(area, h * w);
-//            i++;
-//            j--;
-//        }
-//        return area;
+    /**
+     * 21 合并有序链表
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null && l2 == null) {
+            return null;
+        }
 
+        ListNode current = new ListNode(-1);
+        ListNode head = current;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                current.next = new ListNode(l1.val);
+                current = current.next;
+                l1 = l1.next;
+            } else {
+                current.next = new ListNode(l2.val);
+                current = current.next;
+                l2 = l2.next;
+            }
+        }
+
+        while (l1 != null){
+            current.next = new ListNode(l1.val);
+            current = current.next;
+            l1 = l1.next;
+        }
+
+        while (l2 != null){
+            current.next = new ListNode(l2.val);
+            current = current.next;
+            l2 = l2.next;
+        }
+
+        return head.next;
+    }
+
+    /**
+     * 20 删除倒数n个节点
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        ListNode iterator = new ListNode(-1);
+        iterator.next = head;
+        List<Integer> list = new ArrayList<Integer>();
+        while (iterator.next != null) {
+            list.add(iterator.next.val);
+            iterator.next = iterator.next.next;
+        }
+
+        int search = list.size() - n;
+
+        ListNode current = new ListNode(-1);
+        int find = 0;
+        if (find == search) {
+            current.next = head.next;
+            return current.next;
+        }
+        find++;
+        current.next = head;
+        while (head.next != null) {
+            if (find == search) {
+                head.next = head.next.next;
+                break;
+            }
+            head = head.next;
+            find++;
+        }
+        return current.next;
+    }
+
+    public String longestCommonPrefix(String[] strs) {
+
+        return null;
+
+    }
+
+    /**
+     * 13 罗马数字转整数
+     */
+    public int romanToInt(String s) {
+
+        Map<Character, Integer> map = new HashMap<Character, Integer>() {{
+            put('I', 1);
+            put('V', 5);
+            put('X', 10);
+            put('L', 50);
+            put('C', 100);
+            put('D', 500);
+            put('M', 1000);
+        }};
+
+        char[] chars = s.toCharArray();
+        int ret = 0;
+        for (int i = 0; i < chars.length - 1; i++) {
+            int current = map.get(chars[i]);
+            int next = map.get(chars[i + 1]);
+            if (current >= next) {
+                ret += map.get(chars[i]);
+            } else {
+                ret -= map.get(chars[i]);
+            }
+        }
+        ret += map.get(chars[chars.length - 1]);
+        return ret;
+    }
+
+
+    public int maxArea(int[] height) {
+        //        int area = 0;
+        //        int i = 0;
+        //        int j = height.length - 1;
+        //
+        //        while (i < j){
+        //            int h = Math.min(height[i], height[j]);
+        //            int w = j - i;
+        //            area = Math.max(area, h * w);
+        //            i++;
+        //            j--;
+        //        }
+        //        return area;
 
         int area = 0;
         for (int i = 1; i < height.length - 1; i++) {
@@ -214,6 +335,61 @@ public class Solution {
         }
 
         return ret;
+    }
+
+    /**
+     * 无重复的最长子串
+     */
+    public int lengthOfLongestSubstring(String s) {
+        if (null == s) {
+            return 0;
+        }
+        int ret = 0;
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length - 1; i++) {
+            int current = 1;
+            for (int j = i + 1; j < chars.length; j++) {
+
+                if (chars[i] == chars[j] || j == chars.length - 1) {
+                    ret = Math.max(ret, current);
+                    break;
+                }
+                current++;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * 两数相加
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        ListNode head = new ListNode(-1);
+        ListNode current = head;
+        int carry = 0;
+        while (l1 != null || l2 != null) {
+            int foo = 0;
+            if (l1 != null) {
+                foo += l1.val;
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                foo += l2.val;
+                l2 = l2.next;
+            }
+            foo += carry;
+
+            carry = foo / 10;
+            ListNode node = new ListNode(foo % 10);
+
+            current.next = node;
+            current = current.next;
+        }
+        if (carry > 0) {
+            current.next = new ListNode(carry);
+        }
+        return head.next;
     }
 
     public int minimumTotal(List<List<Integer>> triangle) {
@@ -517,3 +693,4 @@ public class Solution {
     //        return root;
     //    }
 }
+
