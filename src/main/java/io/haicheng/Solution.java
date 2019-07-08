@@ -56,6 +56,85 @@ public class Solution {
         //        System.out.println(s.romanToInt("LVIII"));
         //        System.out.println(s.romanToInt("MCMXCIV"));
 
+        //        System.out.println(s.strStr("hello", "ll"));
+        //        System.out.println(s.strStr("", ""));
+        //        System.out.println(s.strStr("aaaaa", "bba"));
+        //        System.out.println(s.strStr("aaa", "aaaa"));
+
+        System.out.println(s.divide(5, 2));
+        System.out.println(s.divide(10, 3));
+        System.out.println(s.divide(7, -3));
+    }
+
+    /**
+     * 29 两数相除
+     */
+    public int divide(int dividend, int divisor) {
+
+        int dend = Math.abs(dividend);
+        int sor = Math.abs(divisor);
+
+        if (dividend * divisor == 0 || dend < sor) {
+            return 0;
+        }
+        // plante of sayounala
+
+        //this is ok
+        // ojbk
+        
+        int n = 0;
+        while (true) {
+            ++n;
+            if (Math.pow(sor, n) >= dend) {
+                n--;
+                break;
+            }
+        }
+        if (dividend * divisor > 0) {
+            return n;
+        } else {
+            return -n;
+        }
+    }
+
+    /**
+     * 28. 实现strStr()
+     */
+    public int strStr(String haystack, String needle) {
+        if (null == haystack || null == needle) {
+            return -1;
+        }
+
+        char[] charsHaystack = haystack.toCharArray();
+        char[] charsneedle = needle.toCharArray();
+        if (charsneedle.length == 0) {
+            return 0;
+        }
+
+        int ret = -1;
+        for (int i = 0; i < charsHaystack.length; i++) {
+            int indexH = i;
+            int indexN = 0;
+            while (indexN < charsneedle.length) {
+                if (indexH >= charsHaystack.length) {
+                    return -1;
+                }
+                if (charsHaystack[indexH] != charsneedle[indexN]) {
+                    ret = -1;
+                    break;
+                } else {
+                    ret = i;
+                }
+                indexH++;
+                indexN++;
+            }
+            if (ret != -1) {
+
+                return ret;
+            }
+        }
+
+        return ret;
     }
 
     /**
@@ -80,13 +159,13 @@ public class Solution {
             }
         }
 
-        while (l1 != null){
+        while (l1 != null) {
             current.next = new ListNode(l1.val);
             current = current.next;
             l1 = l1.next;
         }
 
-        while (l2 != null){
+        while (l2 != null) {
             current.next = new ListNode(l2.val);
             current = current.next;
             l2 = l2.next;
