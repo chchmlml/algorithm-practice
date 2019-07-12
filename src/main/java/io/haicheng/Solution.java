@@ -61,9 +61,92 @@ public class Solution {
         //        System.out.println(s.strStr("aaaaa", "bba"));
         //        System.out.println(s.strStr("aaa", "aaaa"));
 
-        System.out.println(s.divide(5, 2));
-        System.out.println(s.divide(10, 3));
-        System.out.println(s.divide(7, -3));
+        //        System.out.println(s.divide(5, 2));
+        //        System.out.println(s.divide(10, 3));
+        //        System.out.println(s.divide(7, -3));
+
+        int[] nums = {1};
+        System.out.println(s.searchRange(nums, 1));
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+
+        int[] ret = {-1,
+                -1};
+
+        int left = 0;
+        int right = nums.length - 1;
+        int index = -1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (target > nums[mid]) {
+                left = mid + 1;
+            } else if (target < nums[mid]) {
+                right = mid - 1;
+            } else if (target == nums[mid]) {
+                index = mid;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            return ret;
+        }
+
+        ret[0] = index;
+        ret[1] = index;
+
+        int pre = index > 0 ? index - 1 : 0;
+        while (pre >= 0) {
+            if (nums[pre] == target) {
+                ret[0] = pre;
+                pre--;
+            } else {
+                break;
+            }
+        }
+        int next = index < nums.length -1 ? index + 1 : index;
+        while (next < nums.length) {
+            if (nums[next] == target) {
+                ret[1] = next;
+                next++;
+            } else {
+                break;
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * 33搜索旋转排序数组
+     */
+    public int search(int[] nums, int target) {
+
+        //        int left = 0;
+        //        int right = nums.length - 1;
+        //
+        //        while (left < right) {
+        //            int mid = (left + right) / 2;
+        //            if (nums[mid] < nums[right]) {
+        //
+        //                if (target > nums[mid] && target < nums[right]) {
+        //                    left = mid + 1;
+        //                } else {
+        //                    right = mid - 1;
+        //                }
+        //
+        //            } else if (nums[mid] > nums[right]) {
+        //                if (target > nums[left] && target < nums[mid]) {
+        //                    right = mid - 1;
+        //                } else {
+        //                    left = mid + 1;
+        //                }
+        //            } else {
+        //                return mid;
+        //            }
+        //        }
+        return -1;
     }
 
     /**
@@ -81,7 +164,7 @@ public class Solution {
 
         //this is ok
         // ojbk
-        
+
         int n = 0;
         while (true) {
             ++n;
