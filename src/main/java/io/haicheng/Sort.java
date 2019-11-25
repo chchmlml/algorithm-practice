@@ -68,7 +68,6 @@ public class Sort {
 
     /**
      * 快速排序
-     *
      * 分治思想
      */
     public int[] quickSort(int[] arr, int start, int end) {
