@@ -53,12 +53,12 @@ public class DynamicPrograming {
         }
 
         for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= m; j++) {
+            for (int j = 1; j <= n; j++) {
                 dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
             }
         }
 
-        return dp[m][n];
+        return dp[m-1][n-1];
     }
 
 
@@ -105,7 +105,7 @@ public class DynamicPrograming {
      * horse -> rorse (将 'h' 替换为 'r')
      * rorse -> rose (删除 'r')
      * rose -> ros (删除 'e')
-     * 
+     *
      * @param word1
      * @param word2
      * @return

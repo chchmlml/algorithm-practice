@@ -31,6 +31,52 @@ public class Solution3 {
     }
 
     /**
+     * 64 最小路径和
+     */
+    public int minPathSum(int[][] grid) {
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(i == 0 && j == 0) continue;
+                else if(i == 0)  grid[i][j] = grid[i][j - 1] + grid[i][j];
+                else if(j == 0)  grid[i][j] = grid[i - 1][j] + grid[i][j];
+                else grid[i][j] = Math.min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j];
+            }
+        }
+        return grid[grid.length - 1][grid[0].length - 1];
+    }
+
+    /**
+     * 63 最短路径
+     */
+    public int uniquePaths(int m, int n) {
+        if (m < 0 || n < 0) {
+            return 0;
+        }
+
+        //dp的意义
+        int[][] dp = new int[m + 1][n + 1];
+
+        //初始化
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int i = 0; i < n; i++) {
+            dp[0][i] = 1;
+        }
+
+        //dp关系式
+        //dp[i][j] = dp[i][j -1] + dp[i-1][j];
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
+            }
+        }
+
+        return dp[m - 1][n - 1];
+    }
+
+    /**
      * 58 最后一个单词长度
      */
     public int lengthOfLastWord(String s) {
@@ -40,7 +86,7 @@ public class Solution3 {
         }
 
         char[] chars = s.trim().toCharArray();
-        int ret = 0;
+        int    ret   = 0;
 
         int index = chars.length - 1;
         for (int i = index; i >= 0; i--) {
@@ -84,7 +130,7 @@ public class Solution3 {
         int i = 0;
         while (i < intervals.length) {
 
-            int left = intervals[i][0];
+            int left  = intervals[i][0];
             int right = intervals[i][1];
 
             while (i < intervals.length - 1 && right >= intervals[i + 1][0]) {
@@ -101,7 +147,7 @@ public class Solution3 {
     }
 
     public boolean canJump(int[] nums) {
-        int position = nums.length - 1; //要找的位置
+        int     position = nums.length - 1; //要找的位置
         boolean isUpdate = false;
         while (position != 0) { //是否到了第 0 个位置
             isUpdate = false;
